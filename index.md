@@ -1,15 +1,53 @@
-## HEELLOOOOOO LING 539!
+# How to Compare the Emotions from Speech's Acoustic and Linguistic Data
 
-You can use the [editor on GitHub](https://github.com/tinageee/technical-tutorial/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+Although the literature on sentiment and emotion analyses is extensive, few rigorous investigations have documented the emotion synchrony between different modalities.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+From this article, you will understand how to use this python package in extracting the emotions from the speech and comparing the emotion expressed from acoustic and expressed from linguistic.
 
-### Markdown
+## Where can we use it?
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+### Deception detection:
+Although deceivers can apply high-level control for behavioral management, many non-verbal behaviors are driven unconsciously and cannot be perfectly controlled(Buller and Burgoon 1996), so deceivers can still leak deceptive cues through their voice and facial expression. Based on the premise that lying is cognitively more demanding than truth-telling, existing deception detection studies have examined behavioral patterns between deceivers and truth-tellers(Ekman,1969). Driving from the same theory, this excessive cognitive load could promote inconsistency between the emotion expressed by the deceiver’s linguistic and acoustic features.
 
-```markdown
-Syntax highlighted code block
+<br/>**Reference**:
+<br/>Buller, D.B. and Burgoon, J.K. 1996. “Interpersonal deception theory,” Communication theory (6:3), pp.203-242.
+<br/>Ekman, P., & Friesen, W. V. 1969. Nonverbal leakage and clues to deception. Psychiatry, 32(1), 88–106
+
+## Model basic information
+### Usage
+_Test whether the emotion in speaker's language and audio aligns_
+### Natural languages supported
+_English_
+
+## Steps:
+1. Identify the emotion from the text
+2. Identify the emotion from the audio
+3. Compare two emotion tags
+
+### Step 1: Identify the emotion from the text
+Python  Package:[Text2Emotion](https://pypi.org/project/text2emotion/)
+- Processes any textual data, recognizes the emotion embedded in it, and provides the output in the form of a dictionary.
+- Well suited with 5 basic emotion categories such as **Happy, Angry, Sad, Surprise, and Fear**.
+- The output will be in the form of dictionary where keys as emotion categories and values as emotion score.
+```python
+import text2emotion as  te
+text="avsydgaiusdgajhdlakdj;ksj"
+text_emotion=te.get_emotion(text)
+text_emotion
+```
+**Output:**
+```
+{'Happy': 0.0, 'Angry': 0.0, 'Surprise': 0.0, 'Sad': 0.8, 'Fear': 0.2}
+```
+
+
+
+
+
+
+
+I hope you got the idea about the basic functionalities provided by this progarm. If you have any questions, you are welcome to reach me by [ge1@email.arizona.edu](ge1@email.arizona.edu)
+All code shown here is in [this github repository](https://github.com/tinageee/technical-tutorial.git). Feel free to leave a star!
 
 # Header 1
 ## Header 2
@@ -26,12 +64,3 @@ Syntax highlighted code block
 [Link](url) and ![Image](src)
 ```
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/tinageee/technical-tutorial/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
