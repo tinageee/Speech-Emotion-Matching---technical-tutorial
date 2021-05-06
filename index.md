@@ -1,3 +1,5 @@
+Check this [page](https://uazhlt-ms-program.github.io/technical-tutorial-tinageee/) for the GitHub Pages version of the tutorial.
+
 # How to Compare the Emotions from Acoustic and Linguistic Features of a Speech
 
 Although the literature on sentiment and emotion analyses is extensive, few rigorous investigations have documented the emotion synchrony between different modalities.
@@ -11,7 +13,7 @@ Although deceivers can apply high-level control for behavioral management, many 
 
 <br/>**Reference**:
 <br/>Buller, D.B. and Burgoon, J.K. 1996. “Interpersonal deception theory,” Communication theory (6:3), pp.203-242.
-<br/>Ekman, P., & Friesen, W. V. 1969. Nonverbal leakage and clues to deception. Psychiatry, 32(1), 88–106
+<br/>Ekman, P., & Friesen, W. V. 1969. Nonverbal leakage and clues to deception. Psychiatry, 32(1), 88–106
 
 ## Model basic information
 ### Input
@@ -50,7 +52,7 @@ pip install -r requirements.txt
 inputs
 ```
 text="Although the literature on sentiment and emotion analyses is extensive, few rigorous investigations have documented
-the emotion synchrony between different modalities.From this article, you will understand how to use this python package
+the emotion synchrony between different modalities. From this article, you will understand how to use this python package
 to extract the sentiments from the speech and compare the emotion expressed from acoustic and conveyed from linguistic."
 
 audio_file='data/audio_for_demo_1.wav'
@@ -61,12 +63,12 @@ audio_file='data/audio_for_demo_1.wav'
 
 Codes and data in this section are adapted and modified from [x4nth055](https://github.com/x4nth055).
 
-<br/>_Project:[Emotion Recognition Using Speech](https://github.com/x4nth055/emotion-recognition-using-speech)_
+<br/>_Project: [Emotion Recognition Using Speech](https://github.com/x4nth055/emotion-recognition-using-speech)_
 <br/>_Copyright (c) 2019 [x4nth055](https://github.com/x4nth055)_
 <br/>_License [MIT License]( https://github.com/x4nth055/emotion-recognition-using-speech/blob/master/LICENSE)_
 
 Model development Dataset:
-This  used 2 datasets (including this repo's custom dataset) which are downloaded and formatted already in `data` folder:
+This  used 2 datasets (including this repo's custom dataset) which are downloaded and formatted already in the `data` folder:
 - [**RAVDESS**](https://zenodo.org/record/1188976) : The **R**yson **A**udio-**V**isual **D**atabase of **E**motional **S**peech and **S**ong that contains 24 actors (12 male, 12 female), vocalizing two lexically-matched statements in a neutral North American accent.
 - [**TESS**](https://tspace.library.utoronto.ca/handle/1807/24487) : **T**oronto **E**motional **S**peech **S**et that was modeled on the Northwestern University Auditory Test No. 6 (NU-6; Tillman & Carhart, 1966). A set of 200 target words were spoken in the carrier phrase "Say the word _____' by two actresses (aged 26 and 64 years).
 - All the emotion notation were not marked by the audio content
@@ -76,17 +78,13 @@ Data Preprocessing and Feature Extraction:
 - Feature extraction is the main part of the speech emotion recognition system. It is basically accomplished by changing the speech waveform to a form of parametric representation at a relatively lesser data rate.
 
 Model training:
-<ul>
-    <li>Apply RNN(LSTM) to train and test model
-        <ul>
-            <li>LSTM: 128x2 two RNN layers with 128 unites</li>
-            <li>Dense: 128x2 two Dense Layers with 128 units</li>
-           <li>Dropout Rate: 0.3</li>
-          <li>BatchSize: 64</li>
-          <li>Epochs: 200</li>
-</ul>
-
-  <li> the model's architecture, weights values, and compile() information were saved to log and result folder in H5 format
+Apply RNN(LSTM) to train and test model
+- LSTM: 128x2 two RNN layers with 128 unites
+- Dense: 128x2 two Dense Layers with 128 units
+- Dropout Rate: 0.3
+- BatchSize: 64
+- Epochs: 200
+- The model's architecture, weights values, and `compile()` information were saved in `log` and `result` folder in H5 format
   
 ```python
 from deep_emotion_recognition import DeepEmotionRecognizer
@@ -211,11 +209,11 @@ cosine_dic(audio_emotion,text_emotion)
 ```
 - The emotions expressed from audio and the emotions are not aligned with each other.
 
-**Test on other audio record**
+**Test on other audio records**
 ```python
 audio_file='data/audio_for_demo_2.wav'
 text="I hope you got the idea about the basic functionalities provided by this program. If you have any questions, 
-you are welcome to reach me by my email. All code shown here is in this GitHub repository. Feel free to leave a comment!Thank you!"
+you are welcome to reach me by my email. All code shown here is in this GitHub repository. Feel free to leave a comment! Thank you!"
 
 convert_audio(audio_file,"data/audio_for_demo_2_converted.wav")
 audio_emotion=deeprec.predict_proba("data/audio_for_demo_2_converted.wav")
@@ -232,19 +230,19 @@ Text emotions: {'Happy': 0.5, 'Angry': 0.0, 'Surprise': 0.0, 'Sad': 0.0, 'Fear':
 
 ```python
 plot_rader(audio_emotion,text_emotion)
-cosine_dic(audio_emotion,text_emotion)
+print("cosine similarity:=",cosine_dic(audio_emotion,text_emotion))
 ```
 
 **output:**
 
 <img src="images/image_for_demo_2.png" alt="">
 ```python
-0
+cosine similarity:= 0.0
 ```
+- The emotions expressed from audio and the emotions are not aligned with each other.
 ### limitation:
-The input of the project is the audio and its transcript. It could be better to include an audio-to-text converter to reduce the input dimensions.
-the accuracy rate of the emotional recognizer is not ensured
+- The input of the project is the audio and its transcript. It could be better to include an audio-to-text converter to reduce the input dimensions.
+- The accuracy rate of the emotional recognizer is not ensured. The speech emotion classifier seems bias toward "angry".
 
 ### I hope you got the idea about the basic functionalities provided by this program. If you have any questions, you are welcome to reach me by [ge1@email.arizona.edu](ge1@email.arizona.edu)
-### All code shown here is in [this GitHub repository](https://github.com/tinageee/technical-tutorial.git). Feel free to leave a comment!Thank you!
-
+### All code shown here is in [this GitHub repository](https://github.com/tinageee/technical-tutorial.git). Feel free to leave a comment! Thank you!
