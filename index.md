@@ -78,7 +78,7 @@ Model training:
           <li>Epochs: 200</li>
 </ul>
 
-  <li> Weights and model were saved to log and result folder
+  <li> the model's architecture, weights values, and compile() information were saved to log and result folder in H5 format
   
 ```python
 from deep_emotion_recognition import DeepEmotionRecognizer
