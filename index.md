@@ -2,12 +2,12 @@
 
 Although the literature on sentiment and emotion analyses is extensive, few rigorous investigations have documented the emotion synchrony between different modalities.
 
-From this article, you will understand how to use this python package to extract the sentiments from the speech and compare the emotion expressed from acoustic and conveyed from linguistic.
+From this article, you will understand how to use this python package to extract the sentiments from speech and compare the emotions expressed from acoustics and conveyed from linguistics.
 
 ## Where can we use it?
 
 ### Deception detection:
-Although deceivers can apply high-level control for behavioral management, many non-verbal behaviors are driven unconsciously. They cannot be perfectly controlled(Buller and Burgoon 1996), so deceivers can still leak deceptive cues through their voice and facial expression. Based on the premise that lying is cognitively more demanding than truth-telling, existing deception detection studies have examined behavioral patterns between deceivers and truth-tellers(Ekman,1969). Driving from the same theory, this excessive cognitive load could promote inconsistency between the emotion expressed by the deceiver’s linguistic and acoustic features.
+Although deceivers can apply high-level control for behavioral management, many non-verbal behaviors are driven unconsciously. They cannot be perfectly controlled (Buller and Burgoon 1996), so deceivers can still leak deceptive cues through their voice and facial expression. Based on the premise that lying is cognitively more demanding than truth-telling, existing deception detection studies have examined behavioral patterns between deceivers and truth-tellers (Ekman,1969). Driving from the same theory, this excessive cognitive load could promote inconsistency between the emotion expressed by the deceiver’s linguistic and acoustic features.
 
 <br/>**Reference**:
 <br/>Buller, D.B. and Burgoon, J.K. 1996. “Interpersonal deception theory,” Communication theory (6:3), pp.203-242.
@@ -15,8 +15,8 @@ Although deceivers can apply high-level control for behavioral management, many 
 
 ## Model basic information
 ### Input
-_Audio file_
-_The transcript of the audio_
+- _An audio file_
+- _The transcript of the audio_
 ### output
 _A cosine similarity score_
 
@@ -47,6 +47,14 @@ Install these libraries by the following command:
 ```
 pip install -r requirements.txt
 ```
+inputs
+```
+text="Although the literature on sentiment and emotion analyses is extensive, few rigorous investigations have documented
+the emotion synchrony between different modalities.From this article, you will understand how to use this python package
+to extract the sentiments from the speech and compare the emotion expressed from acoustic and conveyed from linguistic."
+
+audio_file='data/audio_for_demo_1.wav'
+```
 
 
 ### Step 1: Identify the Emotions from the Audio
@@ -54,7 +62,7 @@ pip install -r requirements.txt
 Codes and data in this section are adapted and modified from [x4nth055](https://github.com/x4nth055).
 
 <br/>_Project:[Emotion Recognition Using Speech](https://github.com/x4nth055/emotion-recognition-using-speech)_
-<br/>_Copyright (c) 2019 [x4nth055](https://github.com/x4nth055) _
+<br/>_Copyright (c) 2019 [x4nth055](https://github.com/x4nth055)_
 <br/>_License [MIT License]( https://github.com/x4nth055/emotion-recognition-using-speech/blob/master/LICENSE)_
 
 Model development Dataset:
@@ -89,24 +97,24 @@ deeprec = DeepEmotionRecognizer(emotions=['happy','angry', 'ps', 'sad', 'fear'],
                                 n_rnn_layers=2, n_dense_layers=2, rnn_units=128, dense_units=128)
 # train the model
 deeprec.train()
-# get the accuracy
-print(deeprec.test_score())
-prediction = deeprec.predict('data/validation/Actor_10/03-02-05-02-02-02-10_angry.wav')
-print(f"Prediction: {prediction}")
 ```
-**output:**
-```
-0.7948717948717948
-Prediction: angry
-```
-For the purpose of this project, we are looking for the predicting probabilities:
+Converting the raw audio to 16000 sample rate, mono channel
 ```python
-audio_emotion=deeprec.predict_proba("data/emodb/wav/16a01Wb.wav")
+from convert_wavs import convert_audio
+import os
+import ffmpeg
+
+convert_audio(audio_file,"data/audio_for_demo_1_converted.wav")
+```
+
+For the purpose of this project, we are only looking for the predicting probabilities:
+```python
+audio_emotion=deeprec.predict_proba("data/audio_for_demo_1_converted.wav")
 audio_emotion
 ```
 **output:**
 ```
-{'happy': 0.0035012343, 'angry': 0.6658994, 'ps': 0.0007041567, 'sad': 8.3319016e-08, 'fear': 0.32989508}
+{'happy': 0.09773087, 'angry': 0.7660278, 'ps': 0.0029606828, 'sad': 6.4339074e-05, 'fear': 0.13321622}
 ```
 
 ### Step 2: Identify the Emotions from the Text
@@ -116,20 +124,19 @@ Python Package:[Text2Emotion](https://pypi.org/project/text2emotion/)
 - The output will be in the form of a dictionary where keys as emotion categories and values as emotion scores.
 ```python
 import text2emotion as  te
-text="avsydgaiusdgajhdlakdj;ksj"
 text_emotion=te.get_emotion(text)
 text_emotion
 ```
 **output:**
 ```
-{'Happy': 0.0, 'Angry': 0.0, 'Surprise': 0.0, 'Sad': 0.8, 'Fear': 0.2}
+{'Happy': 0.0, 'Angry': 0.0, 'Surprise': 0.22, 'Sad': 0.67, 'Fear': 0.11}
 ```
 
 ### Step 3. Compare Two Emotion Tags
 Show the radar chat between two emotion results
 
 ```python
-#modify emotion key name, make audio_emotion and text+emotion matchs
+#modify emotion key name, make audio_emotion and text_emotion Key matches
 audio_emotion['Happy'] = audio_emotion.pop('happy')
 audio_emotion['Angry'] = audio_emotion.pop('angry')
 audio_emotion['Surprise'] = audio_emotion.pop('ps')
@@ -142,38 +149,44 @@ def extra_dic_value (dict1):
         res.append(dict1[key])
     return res
     
-# plot the chat    
 import plotly.graph_objects as go
-categories = ['Happy','Angry','Surprise','Sad','Fear']
 
-fig = go.Figure()
-fig.add_trace(go.Scatterpolar(
-      r=extra_dic_value(audio_emotion),
-      theta=categories,
-      fill='toself',
-      name='Audio Emotion'
-))
-fig.add_trace(go.Scatterpolar(
-      r=extra_dic_value(text_emotion),
-      theta=categories,
-      fill='toself',
-      name='text Emotion'
-))
+def plot_rader (audio_emotion,text_emotion):
+    categories = ['Happy','Angry','Surprise','Sad','Fear']
 
-fig.update_layout(
-  polar=dict(
-    radialaxis=dict(
-      visible=True,
-      range=[0, 1]
-    )),
-  showlegend=True
-)
+    fig = go.Figure()
 
-fig.show()
+    fig.add_trace(go.Scatterpolar(
+          r=extra_dic_value(audio_emotion),
+          theta=categories,
+          fill='toself',
+          name='Audio Emotion'
+    ))
+    fig.add_trace(go.Scatterpolar(
+          r=extra_dic_value(text_emotion),
+          theta=categories,
+          fill='toself',
+          name='text Emotion'
+    ))
+
+    fig.update_layout(
+      polar=dict(
+        radialaxis=dict(
+          visible=True,
+          range=[0, 1]
+        )),
+      showlegend=True
+    )
+
+    fig.show()
+```
+
+```python
+plot_rader(audio_emotion,text_emotion)
 ```
 **output:**
 
-<img src="images/your-image.jpg" alt="">
+<img src="images/image_for_demo_1.png" alt="">
 
 Calculate the cosine similarity of two emotion sets
 ```python
@@ -196,9 +209,42 @@ cosine_dic(audio_emotion,text_emotion)
 ```
 0.11596345652177634
 ```
+- The emotions expressed from audio and the emotions are not aligned with each other.
+
+**Test on other audio record**
+```python
+audio_file='data/audio_for_demo_2.wav'
+text="I hope you got the idea about the basic functionalities provided by this program. If you have any questions, 
+you are welcome to reach me by my email. All code shown here is in this GitHub repository. Feel free to leave a comment!Thank you!"
+
+convert_audio(audio_file,"data/audio_for_demo_2_converted.wav")
+audio_emotion=deeprec.predict_proba("data/audio_for_demo_2_converted.wav")
+text_emotion=te.get_emotion(text)
+
+print("Audio emotions:",audio_emotion)
+print("Text emotions:",text_emotion)
+```
+**output:**
+```
+Audio emotions: {'happy': 0.09773087, 'angry': 0.7660278, 'ps': 0.0029606828, 'sad': 6.4339074e-05, 'fear': 0.13321622}
+Text emotions: {'Happy': 0.5, 'Angry': 0.0, 'Surprise': 0.0, 'Sad': 0.0, 'Fear': 0.5}
+```
+
+```python
+plot_rader(audio_emotion,text_emotion)
+cosine_dic(audio_emotion,text_emotion)
+```
+
+**output:**
+
+<img src="images/image_for_demo_2.png" alt="">
+```python
+0
+```
 ### limitation:
 The input of the project is the audio and its transcript. It could be better to include an audio-to-text converter to reduce the input dimensions.
+the accuracy rate of the emotional recognizer is not ensured
 
 ### I hope you got the idea about the basic functionalities provided by this program. If you have any questions, you are welcome to reach me by [ge1@email.arizona.edu](ge1@email.arizona.edu)
-### All code shown here is in [this GitHub repository](https://github.com/tinageee/technical-tutorial.git). Feel free to leave a star!
+### All code shown here is in [this GitHub repository](https://github.com/tinageee/technical-tutorial.git). Feel free to leave a comment!Thank you!
 
