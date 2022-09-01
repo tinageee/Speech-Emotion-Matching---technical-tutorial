@@ -1,4 +1,3 @@
-Check this [page](https://uazhlt-ms-program.github.io/technical-tutorial-tinageee/) for the GitHub Pages version of the tutorial.
 
 # How to Compare the Emotions from Acoustic and Linguistic Features of a Speech
 
@@ -19,13 +18,14 @@ Although deceivers can apply high-level control for behavioral management, many 
 ### Input
 - _An audio file_
 - _The transcript of the audio_
-### output
-_A cosine similarity score_
+
+### Output
+- _A cosine similarity score_
 
 ### Usage
-_Test whether the emotion in the speaker's language and audio aligns_
+- _Test whether the emotion in the speaker's language and audio aligns_
 ### Natural languages supported
-_English_
+- _English_
 
 ## Steps:
 1. Identify the emotions from the audio
@@ -184,7 +184,7 @@ plot_rader(audio_emotion,text_emotion)
 ```
 **output:**
 
-<img src="images/image_for_demo_1.png" alt="">
+<img src="docs/image_for_demo_1.png" alt="">
 
 Calculate the cosine similarity of two emotion sets
 ```python
@@ -235,7 +235,7 @@ print("cosine similarity:=",cosine_dic(audio_emotion,text_emotion))
 
 **output:**
 
-<img src="images/image_for_demo_2.png" alt="">
+<img src="docs/image_for_demo_2.png" alt="">
 ```python
 cosine similarity:= 0.0
 ```
@@ -245,4 +245,4 @@ cosine similarity:= 0.0
 - The accuracy rate of the emotional recognizer is not ensured. The speech emotion classifier seems bias toward "angry".
 
 ### I hope you got the idea about the basic functionalities provided by this program. If you have any questions, you are welcome to reach me by [ge1@email.arizona.edu](ge1@email.arizona.edu)
-### All code shown here is in [this GitHub repository](https://github.com/tinageee/technical-tutorial.git). Feel free to leave a comment! Thank you!
+### All code shown here is in [this GitHub repository](https://github.com/uazhlt-ms-program/technical-tutorial-tinageee.git). Feel free to leave a comment! Thank you!
