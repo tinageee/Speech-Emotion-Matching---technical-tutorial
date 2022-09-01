@@ -1,4 +1,4 @@
-Check this [page](https://uazhlt-ms-program.github.io/technical-tutorial-tinageee/) for the GitHub Pages version of the tutorial.
+Check this [page](https://tinageee.github.io/technical-tutorial/) for the GitHub Pages version of the tutorial.
 
 # How to Compare the Emotions from Acoustic and Linguistic Features of a Speech
 
@@ -246,4 +246,4 @@ cosine similarity:= 0.0
 - The accuracy rate of the emotional recognizer is not ensured. The speech emotion classifier seems bias toward "angry".
 
 ### I hope you got the idea about the basic functionalities provided by this program. If you have any questions, you are welcome to reach me by [ge1@email.arizona.edu](ge1@email.arizona.edu)
-### All code shown here is in [this GitHub repository](https://github.com/uazhlt-ms-program/technical-tutorial-tinageee.git). Feel free to leave a comment! Thank you!
+### All code shown here is in [this GitHub repository](https://github.com/tinageee/technical-tutorial). Feel free to leave a comment! Thank you!
